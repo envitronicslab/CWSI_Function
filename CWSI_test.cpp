@@ -15,9 +15,9 @@ int main(int argc, char * argv[])
     data.b2 = 3.0;
     data.b0 = 0.1;
     data.lat = 42.3;    
-    data.Elev = 2500;    
-    double Tc {24.1};
-    double DOY {180};
+    data.Elev = 2500;  
+    data.DOY = 180;  
+    double Tc = 24.1;    
 
     /* Put data into the model */
     CWSIModel cwsi_model(data); 
