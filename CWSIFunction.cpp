@@ -19,10 +19,10 @@
 // Function to calculate the crop water stress index (CWSI)
 double CWSIModel::CWSI(double Tc) 
 {
-    double dT;        //Tc-Ta for measured conditions (deg C)
-    double dTu;       //Tc-Ta of the upper limit (nontranspiring crop), hot, maximum stress (deg C)
-    double dTl;       //Tc-Ta of the lower limit (crop canopy transpiration not limited by availabel moisture), cold, nonstressed (deg C)
-    double resultCWSI;
+    double dT{ 0.0 };        //Tc-Ta for measured conditions (deg C)
+    double dTu{ 0.0 };       //Tc-Ta of the upper limit (nontranspiring crop), hot, maximum stress (deg C)
+    double dTl{ 0.0 };       //Tc-Ta of the lower limit (crop canopy transpiration not limited by availabel moisture), cold, nonstressed (deg C)
+    double resultCWSI{ 0.0 };
     
     dT = Tc - data_.Ta;
     dTu = dTu_F();
@@ -53,16 +53,16 @@ double CWSIModel::CWSI(double Tc)
 // Potential transpiration function
 double CWSIModel::Tp_F()
 {
-    double ga; 
-    double Qnc; 
-    double emiss_cloudy; 
-    double DeltaT; 
-    double dT; 
-    double T; 
-    double d; 
-    double VPD; 
-    double resultTp_F;
-    double Tc;
+    double ga{ 0.0 }; 
+    double Qnc{ 0.0 }; 
+    double emiss_cloudy{ 0.0 }; 
+    double DeltaT{ 0.0 }; 
+    double dT{ 0.0 }; 
+    double T{ 0.0 }; 
+    double d{ 0.0 }; 
+    double VPD{ 0.0 }; 
+    double resultTp_F{ 0.0 };
+    double Tc{ 0.0 };
 
     d = D_F();
     VPD = data_.m * d + data_.b1;
@@ -91,11 +91,11 @@ double CWSIModel::Tp_F()
 // Non-Linearized actual transpiration function
 double CWSIModel::T_Actual_F(const double &Tc) 
 {
-    double ga; 
-    double Qnc; 
-    double DeltaT; 
-    double dTu; 
-    double resultT_Actual_F;
+    double ga{ 0.0 }; 
+    double Qnc{ 0.0 }; 
+    double DeltaT{ 0.0 }; 
+    double dTu{ 0.0 }; 
+    double resultT_Actual_F{ 0.0 };
     
     dTu = Tc - data_.Ta;
     ga = gH_Leaf(Tc, dTu); // mol/m^2/s
@@ -119,12 +119,12 @@ double CWSIModel::T_Actual_F(const double &Tc)
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 double CWSIModel::Rnet(double Tc) 
 {
-    double ga; 
-    double Qnc; 
-    double emiss_cloudy; 
-    double DeltaT; 
-    double dTu; 
-    double resultRnet;
+    double ga{ 0.0 }; 
+    double Qnc{ 0.0 }; 
+    double emiss_cloudy{ 0.0 }; 
+    double DeltaT{ 0.0 }; 
+    double dTu{ 0.0 }; 
+    double resultRnet{ 0.0 };
         
     resultRnet = Qn(Tc) -FE * ALPHA_LW * (SIGMA) * (pow((Tc + 273), 4.0));  // Non-Linearized function
     //If resultRnet < 0 Then resultRnet = 0
@@ -135,10 +135,10 @@ double CWSIModel::Rnet(double Tc)
 double CWSIModel::dTu_F() 
 {
     // gs = 0
-    double ga; 
-    double Q; 
-    double emiss_cloudy;
-	double resultdTu_F;
+    double ga{ 0.0 }; 
+    double Q{ 0.0 }; 
+    double emiss_cloudy{ 0.0 };
+	double resultdTu_F{ 0.0 };
 
     emiss_cloudy = emiss_cloudy_F();
         
@@ -152,21 +152,21 @@ double CWSIModel::dTu_F()
 
 double CWSIModel::dTp_F() 
 {
-    double Pa; 
-    double VPD;        // Vapor pressure deficit (kPa)
-    double ga;         // Aerodynamic conductance to heat
-    double gv;         // Aerodynamic conductance to vapor
-    double gs; 
-    double gT; 
-    double dTu; 
-    double es_Ta;         // Saturation vapor pressure (kPa)
-    double s; 
-    double emiss_cloudy; 
-    double d; 
-    double dT; 
-    double Q; 
-    double n; 
-    double resultdTp_F;
+    double Pa{ 0.0 }; 
+    double VPD{ 0.0 };        // Vapor pressure deficit (kPa)
+    double ga{ 0.0 };         // Aerodynamic conductance to heat
+    double gv{ 0.0 };         // Aerodynamic conductance to vapor
+    double gs{ 0.0 }; 
+    double gT{ 0.0 }; 
+    double dTu{ 0.0 }; 
+    double es_Ta{ 0.0 };         // Saturation vapor pressure (kPa)
+    double s{ 0.0 }; 
+    double emiss_cloudy{ 0.0 }; 
+    double d{ 0.0 }; 
+    double dT{ 0.0 }; 
+    double Q{ 0.0 }; 
+    double n{ 0.0 }; 
+    double resultdTp_F{ 0.0 };
     
     emiss_cloudy = emiss_cloudy_F();
     Pa = 101.3 * pow(((293 - 0.0065 * data_.Elev) / 293), 5.26);
@@ -192,27 +192,27 @@ double CWSIModel::dTp_F()
 // Total Condcutance Model (Potential)
 double CWSIModel::gT_F() 
 {
-    double Pa; 
-    double gT; 
-    double gs; 
-    double dTl; 
-    double Tavg; 
-    double d; 
-    double Q;         // Saturation vapor pressure (kPa)
-    double s; 
-    double Lc; 
-    double la; 
-    double emiss_cloudy; 
-    double SC; 
-    double VPD; 
-    double gv; 
-    double ga; 
-    double Qnc; 
-    double dT; 
-    double T;
-    double n; 
-    double resultgT_F;
-    double Tc;
+    double Pa{ 0.0 }; 
+    double gT{ 0.0 }; 
+    double gs{ 0.0 }; 
+    double dTl{ 0.0 }; 
+    double Tavg{ 0.0 }; 
+    double d{ 0.0 }; 
+    double Q{ 0.0 };         // Saturation vapor pressure (kPa)
+    double s{ 0.0 }; 
+    double Lc{ 0.0 }; 
+    double la{ 0.0 }; 
+    double emiss_cloudy{ 0.0 }; 
+    double SC{ 0.0 }; 
+    double VPD{ 0.0 }; 
+    double gv{ 0.0 }; 
+    double ga{ 0.0 }; 
+    double Qnc{ 0.0 }; 
+    double dT{ 0.0 }; 
+    double T{ 0.0 };
+    double n{ 0.0 }; 
+    double resultgT_F{ 0.0 };
+    double Tc{ 0.0 };
     
     emiss_cloudy = emiss_cloudy_F();
     d = D_F();
@@ -253,10 +253,10 @@ double CWSIModel::gT_F()
 double CWSIModel::Q_F() 
 {
     // Ra: Total shortwave irradiance measured by pyranometer
-    double Absorb;  // Absorptivity
-    double St1;   // Transmitted radiation
-    double la; 
-    double resultQ_F;
+    double Absorb{ 0.0 };  // Absorptivity
+    double St1{ 0.0 };   // Transmitted radiation
+    double la{ 0.0 }; 
+    double resultQ_F{ 0.0 };
           
     Absorb = (1 - ALBEDO_LEAF - TRANS);
     la = La_F();
@@ -269,11 +269,11 @@ double CWSIModel::Q_F()
 
 double CWSIModel::VPD_F(double Tc) 
 {
-    double es_Tc;         // Saturation vapor pressure (kPa)
-    double es_Ta;         // Saturation vapor pressure (kPa)
-    double ea_Tc;         // Actual vapor pressure (kPa)
-    double ea_Ta;         // Actual vapor pressure (kPa)
-    double resultVPD_F;
+    double es_Tc{ 0.0 };         // Saturation vapor pressure (kPa)
+    double es_Ta{ 0.0 };         // Saturation vapor pressure (kPa)
+    double ea_Tc{ 0.0 };         // Actual vapor pressure (kPa)
+    double ea_Ta{ 0.0 };         // Actual vapor pressure (kPa)
+    double resultVPD_F{ 0.0 };
 
     es_Tc = 0.6108 * exp(17.27 * Tc / (Tc + 237.3));
     es_Ta = 0.6108 * exp(17.27 * data_.Ta / (data_.Ta + 237.3));
@@ -286,23 +286,23 @@ double CWSIModel::VPD_F(double Tc)
 double CWSIModel::Delta_F() {
 	// The slope of the relationship between saturation vapour pressure (es, kPa) and air temperature (T, �C)
     // s (kPa �C-1), is given by (Tetens, 1930; Murray, 1967):
-    double resultDelta_F = 4098 * (0.6108 * exp(17.27 * data_.Ta / (data_.Ta + 237.3))) / (pow((data_.Ta + 237.3), 2));
+    double resultDelta_F{ 4098 * (0.6108 * exp(17.27 * data_.Ta / (data_.Ta + 237.3))) / (pow((data_.Ta + 237.3), 2)) };
     
     return resultDelta_F;
 }
 
 double CWSIModel::D_F() 
 {
-    double es_Tc;         // Saturation vapor pressure (kPa)
-    double es_Ta;         // Saturation vapor pressure (kPa)
-    double ea_Tc;         // Actual vapor pressure (kPa)
-    double ea_Ta;         // Actual vapor pressure (kPa)
+    double es_Tc{ 0.0 };         // Saturation vapor pressure (kPa)
+    double es_Ta{ 0.0 };         // Saturation vapor pressure (kPa)
+    double ea_Tc{ 0.0 };         // Actual vapor pressure (kPa)
+    double ea_Ta{ 0.0 };         // Actual vapor pressure (kPa)
    
     es_Ta = 0.6108 * exp(17.27 * data_.Ta / (data_.Ta + 237.3));
 
     ea_Ta = es_Ta * data_.RH / 100;
    
-    double resultD_F = es_Ta - ea_Ta;
+    double resultD_F{ es_Ta - ea_Ta };
     
     return resultD_F;
 } 
@@ -310,37 +310,37 @@ double CWSIModel::D_F()
 double CWSIModel::Qn(double Tc) 
 {
 	// Ra: Total shortwave irradiance measured by pyranometer
-    double Absorb;  // Absorptivity
-    double Sr1;  // Reflected radiation
-    double Sr2;  // Reflected radiation
-    double St1;   // Transmitted radiation
-    double St2;   // Transmitted radiation
-    double St3; 
-    double Srg;   // Reflected radiation from ground
-    double Stb;  // Transmitted radiation through but leaf
-    double Srt;  // Reflected radiation from a shaded leaf surface (second time)
-    double Lg; 
-    double la; 
-    double Lc;  // emitted thermal radiation
-    double Lc_trees;  // emitted thermal radiation from other trees
-    double Lc_trunk;  // emitted thermal radiation from the trunk
-    double Loe; 
-    double G; 
-    double An; 
-    double Qn_Sunlit_Up; 
-    double Qn_Shaded_Mid; 
-    double Qn_Shaded_But; 
-    double Qn_Shaded_Sid; 
-    double Qn_Ground; 
-    double emiss_cloudy; 
-    double SW_Up; 
-    double SW_Mid; 
-    double SW_But; 
-    double SW_Sid; 
-    double LW_Up; 
-    double LW_Mid; 
-    double LW_But; 
-    double LW_Sid; 
+    double Absorb{ 0.0 };  // Absorptivity
+    double Sr1{ 0.0 };  // Reflected radiation
+    double Sr2{ 0.0 };  // Reflected radiation
+    double St1{ 0.0 };   // Transmitted radiation
+    double St2{ 0.0 };   // Transmitted radiation
+    double St3{ 0.0 }; 
+    double Srg{ 0.0 };   // Reflected radiation from ground
+    double Stb{ 0.0 };  // Transmitted radiation through but leaf
+    double Srt{ 0.0 };  // Reflected radiation from a shaded leaf surface (second time)
+    double Lg{ 0.0 }; 
+    double la{ 0.0 }; 
+    double Lc{ 0.0 };  // emitted thermal radiation
+    double Lc_trees{ 0.0 };  // emitted thermal radiation from other trees
+    double Lc_trunk{ 0.0 };  // emitted thermal radiation from the trunk
+    double Loe{ 0.0 }; 
+    double G{ 0.0 }; 
+    double An{ 0.0 }; 
+    double Qn_Sunlit_Up{ 0.0 }; 
+    double Qn_Shaded_Mid{ 0.0 }; 
+    double Qn_Shaded_But{ 0.0 }; 
+    double Qn_Shaded_Sid{ 0.0 }; 
+    double Qn_Ground{ 0.0 }; 
+    double emiss_cloudy{ 0.0 }; 
+    double SW_Up{ 0.0 }; 
+    double SW_Mid{ 0.0 }; 
+    double SW_But{ 0.0 }; 
+    double SW_Sid{ 0.0 }; 
+    double LW_Up{ 0.0 }; 
+    double LW_Mid{ 0.0 }; 
+    double LW_But{ 0.0 }; 
+    double LW_Sid{ 0.0 }; 
     
     emiss_cloudy = emiss_cloudy_F();
            
@@ -366,25 +366,25 @@ double CWSIModel::Qn(double Tc)
     LW_Mid = ALPHA_LW * (2 * 0.5 * Lc);
     Qn_Shaded_Mid = SW_Mid + LW_Mid;
 
-    double resultQn = ((0.5 * Qn_Sunlit_Up + 0.5 * Qn_Shaded_Mid)); 
+    double resultQn{ ((0.5 * Qn_Sunlit_Up + 0.5 * Qn_Shaded_Mid)) }; 
 	
 	return resultQn;       
 }
 
 double CWSIModel::La_F() 
 {
-    double resultLa_F = emiss_cloudy_F() * (SIGMA) * (pow((data_.Ta + 273), 4));
+    double resultLa_F{ emiss_cloudy_F() * (SIGMA) * (pow((data_.Ta + 273), 4)) };
     
     return resultLa_F;
 }
 
 double CWSIModel::emiss_cloudy_F() 
 {
-    double emiss_cleaRaky; 
-    double emiss_cloudy; 
-    double c; 
-    double Ra_Max; 
-    double Ea; 
+    double emiss_cleaRaky{ 0.0 }; 
+    double emiss_cloudy{ 0.0 }; 
+    double c{ 0.0 }; 
+    double Ra_Max{ 0.0 }; 
+    double Ea{ 0.0 }; 
     
     Ra_Max = RaPot(); // W/m^2
     c = (1 - (data_.Sgl / (Ra_Max * 1)));
@@ -397,7 +397,7 @@ double CWSIModel::emiss_cloudy_F()
 	}
     Ea = ea_F();
     emiss_cleaRaky = 1.72 * pow (Ea / (273.16 + data_.Ta), 0.1428571); // Page 163 & 164
-    double resultemiss_cloudy_F = ((1.00 - 0.84 * c) * emiss_cleaRaky + 0.84 * c);
+    double resultemiss_cloudy_F{ ((1.00 - 0.84 * c) * emiss_cleaRaky + 0.84 * c) };
     
     return resultemiss_cloudy_F;
 }
@@ -405,12 +405,12 @@ double CWSIModel::emiss_cloudy_F()
 double CWSIModel::RaPot() 
 {
 	// Calculates Sgl, extraterrestrial incoming solar radiation, in MJ/m^2/day
-    double SmallDelta;     // solar declination  (Sgldians)
-    double dr;             // Inverse relative distance Earth-Sun
-    double omega;          // sunset hour angle  (Sgldians) 
-	double resultRaPot;   
+    double SmallDelta{ 0.0 };     // solar declination  (Sgldians)
+    double dr{ 0.0 };             // Inverse relative distance Earth-Sun
+    double omega{ 0.0 };          // sunset hour angle  (Sgldians) 
+	double resultRaPot{ 0.0 };   
 
-    double lat_rad = data_.lat * M_PI / 180;    // Convert to radians
+    double lat_rad{ data_.lat * M_PI / 180 };    // Convert to radians
     SmallDelta = 0.409 * sin(2 * M_PI / 365.0 * data_.DOY - 1.39);
     omega = acos(-tan(lat_rad) * tan(SmallDelta));
     dr = 1 + 0.033 * cos(2 * M_PI * data_.DOY / 365.0);
@@ -422,12 +422,12 @@ double CWSIModel::RaPot()
 
 double CWSIModel::ea_F() 
 {
-	double es_Ta;         // Saturation vapor pressure (kPa)
-    double ea_Ta;         // Actual vapor pressure (kPa)
+	double es_Ta{ 0.0 };         // Saturation vapor pressure (kPa)
+    double ea_Ta{ 0.0 };         // Actual vapor pressure (kPa)
 
     es_Ta = 0.6108 * exp(17.27 * data_.Ta / (data_.Ta + 237.3));
     ea_Ta = es_Ta * data_.RH * 0.01;
-    double resultea_F = ea_Ta;
+    double resultea_F{ ea_Ta };
     
     return resultea_F;
 }
@@ -435,16 +435,16 @@ double CWSIModel::ea_F()
 double CWSIModel::gH_Leaf(double Tc, double dT) 
 {
 	// dT = canopy and air temp difference (e.g. dTu)
-    double gr; 
-    double Re; 
-    double Pr; 
-    double gHa_Forced; 
-    double Tavg; 
-    double dTu; 
-    double gH; 
-    double g_Free; 
-    double T; 
-    double Kv; 
+    double gr{ 0.0 }; 
+    double Re{ 0.0 }; 
+    double Pr{ 0.0 }; 
+    double gHa_Forced{ 0.0 }; 
+    double Tavg{ 0.0 }; 
+    double dTu{ 0.0 }; 
+    double gH{ 0.0 }; 
+    double g_Free{ 0.0 }; 
+    double T{ 0.0 }; 
+    double Kv{ 0.0 }; 
 
     Re = (data_.U * WIND_F * CD / Kv_F());
     Pr = Kv_F() / 2.14e-5;
@@ -458,21 +458,21 @@ double CWSIModel::gH_Leaf(double Tc, double dT)
     // Factor 1.5 (1 for lower + 0.5 for upper) accounts for the fact that the upper side of leaf is folded cuasing
     // a decreased wind speed and therfore less sensible heat loss
     // Fctor 2 accounts for both sides of the leaf
-    double resultgH_Leaf = 2.0 * gHa_Forced; // + gHa_Free)
+    double resultgH_Leaf{ 2.0 * gHa_Forced }; // + gHa_Free)
     
     return resultgH_Leaf;
 }
 
 double CWSIModel::gV_Leaf(double Tc, double dT) 
 {
-    double gr; 
-    double Re; 
-    double Pr; 
-    double gVa_Forced; 
-    double gv; 
-    double g_Free; 
-    double T; 
-    double Kv; 
+    double gr{ 0.0 }; 
+    double Re{ 0.0 }; 
+    double Pr{ 0.0 }; 
+    double gVa_Forced{ 0.0 }; 
+    double gv{ 0.0 }; 
+    double g_Free{ 0.0 }; 
+    double T{ 0.0 }; 
+    double Kv{ 0.0 }; 
     
     Re = (data_.U * WIND_F * CD / Kv_F());
     Pr = Kv_F() / (2.14 * pow(10, -5));
@@ -483,30 +483,30 @@ double CWSIModel::gV_Leaf(double Tc, double dT)
     
     g_Free = gHv_Free(dT);  // mol/m^2/s
 
-    double resultgV_Leaf = 1 * (gVa_Forced); // + gHv_Free)
+    double resultgV_Leaf{ 1 * (gVa_Forced) }; // + gHv_Free)
     
     return resultgV_Leaf;
 }
 
 double CWSIModel::Kv_F() {	
-	double T; 
+	double T{ 0.0 }; 
     T = data_.Ta + 273.16;
-    double resultKv_F = -1.1555e-14 * pow(T, 3) + 9.5728e-11 * pow(T, 2) + 3.7604e-8 * T - 3.4484e-6;
+    double resultKv_F{ -1.1555e-14 * pow(T, 3) + 9.5728e-11 * pow(T, 2) + 3.7604e-8 * T - 3.4484e-6 };
     
     return resultKv_F;
 } 
 
 double CWSIModel::gHa_Free(double dT) 
 {
-    double gr; 
-    double Re; 
-    double Pr; 
-    double gHa_Forced; 
-    double Tavg; 
-    double dTu; 
-    double gH; 
-    double T; 
-    double resultgHa_Free;
+    double gr{ 0.0 }; 
+    double Re{ 0.0 }; 
+    double Pr{ 0.0 }; 
+    double gHa_Forced{ 0.0 }; 
+    double Tavg{ 0.0 }; 
+    double dTu{ 0.0 }; 
+    double gH{ 0.0 }; 
+    double T{ 0.0 }; 
+    double resultgHa_Free{ 0.0 };
        
     if (dT < 0) {
         resultgHa_Free = 0;        
@@ -524,16 +524,16 @@ double CWSIModel::gHa_Free(double dT)
 
 double CWSIModel::gHv_Free(double dT) 
 {
-    double gr; 
-    double Re; 
-    double Pr; 
-    double gHa_Forced; 
-    double gHa_Free; 
-    double Tavg; 
-    double dTu; 
-    double gH; 
-    double T; 
-    double resultgHv_Free;
+    double gr{ 0.0 }; 
+    double Re{ 0.0 }; 
+    double Pr{ 0.0 }; 
+    double gHa_Forced{ 0.0 }; 
+    double gHa_Free{ 0.0 }; 
+    double Tavg{ 0.0 }; 
+    double dTu{ 0.0 }; 
+    double gH{ 0.0 }; 
+    double T{ 0.0 }; 
+    double resultgHv_Free{ 0.0 };
        
     if (dT < 0) {
     	resultgHv_Free = 0;
