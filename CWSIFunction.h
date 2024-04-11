@@ -23,7 +23,7 @@ struct models_input_data {
 
 class CWSIModel {
 public:
-    CWSIModel(models_input_data &data): data_(data) {}
+    CWSIModel(const models_input_data &data): data_(data) {} // Pass a const ref
     ~CWSIModel() {};
 
     // Function to calculate the crop water stress index (CWSI)
@@ -36,7 +36,7 @@ public:
     double T_Actual_F(const double &Tc);  
 
 private:
-    // Main microclimate data
+    // Main microclimate data (keep a local copy)
     models_input_data data_; 
 
     // Model constants
