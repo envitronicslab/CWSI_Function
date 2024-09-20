@@ -16,7 +16,7 @@ The Python code in the `cwsi_fucntions.py` module demonstrates the functionality
 
 **Requirements:**
 
-* Python 3 (tested with version 3.x)
+* Python 3 (tested with version 3.10)
 
 **Instructions:**
 
