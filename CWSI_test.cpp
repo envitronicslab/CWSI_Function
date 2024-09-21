@@ -20,12 +20,21 @@ int main(int argc, char * argv[])
     double Tc = 24.1;    
 
     /* Put data into the model */
-    CWSIModel cwsi_model(data); 
+    CWSIModel models(data); 
+    
+    /* Calculate actual transpiration */ 
+    double t_a = models.T_Actual_F(Tc);
+    /* Calculate potential transpiration */ 
+    double t_p = models.Tp_F();       
+    printf("*********** Transpiration Models Test **********\n");
+    printf("Actual Transpiration = %.1f (mm/day)\n", t_a);
+    printf("Potential Transpiration = %.1f (mm/day)\n", t_p);
+    printf("\n");
 
     /* Calculate CWSI: */
-    double cwsi = cwsi_model.CWSI(Tc);
+    double cwsi = models.CWSI(Tc);
 
-    printf("*********** CWSI Model Test **********\n");
+    printf("***********  CWSI Model Test  **********\n");
     
     /* Calculated output: */
     printf("CWSI (cal) = %f\n", cwsi);
@@ -40,20 +49,20 @@ int main(int argc, char * argv[])
     }
 
     /* Calculate CWSI for a range of canopy temperatures*/
-    printf("Num    Tc     CWSI\n");
+    printf("Num\t\tTc\t\tCWSI\n");
     for (int i = 0; i < 20; i++)
     {
         Tc += 0.1;
-        cwsi = cwsi_model.CWSI(Tc);
+        cwsi = models.CWSI(Tc);
         if (i < 10) 
         {
-            printf("%d      %.1f   %.2f\n", i, Tc, cwsi);
+            printf("%d\t\t%.1f\t\t%.2f\n", i, Tc, cwsi);
         } else {
-            printf("%d     %.1f   %.2f\n", i, Tc, cwsi);
+            printf("%d\t\t%.1f\t\t%.2f\n", i, Tc, cwsi);
         }
     }
 
-    printf("************** End **************\n");
+    printf("**************    End    **************\n");
 
     return 0;
 }
