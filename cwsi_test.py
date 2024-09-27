@@ -1,5 +1,6 @@
 from cwsi_function import CWSIModel, ModelsInputData
 
+__author__ = "Y. Osroosh, Ph.D. <yosroosh@gmail.com>"
 
 def main():
     """
