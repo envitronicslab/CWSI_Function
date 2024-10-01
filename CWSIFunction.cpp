@@ -3,7 +3,7 @@
 // Equations to calculate theoretical CWSI, actual transpiration (Ta), and potential transpiration (Tp) 
 // Note: models developed and calibrated for apple tree canopies
 // 
-// Written by Yasin Osroosh, Ph.D.
+// Written by Y. Osroosh, Ph.D.
 // Email: yosroosh@gmail.com
 // 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
